@@ -10,5 +10,11 @@
   },
   "devDependencies": {
     "vite": "^5.0.8"
+  },
+  "dependencies": {
+    "external-svg-loader": "^1.6.10",
+    "filter-data": "^0.5.1",
+    "html-prettify": "^1.0.7",
+    "toastify-js": "^1.12.0"
   }
 }

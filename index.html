@@ -4,8 +4,102 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Icons</title>
+    <link rel="stylesheet" href="./assets/css/normalize.css" />
     <link rel="stylesheet" href="./assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/balloon-css/balloon.min.css"
+    />
     <script defer type="module" src="./assets/js/script.js"></script>
   </head>
-  <body></body>
+  <body>
+    <div class="mainContainer">
+      <div class="modal">
+        <div class="modalContent">
+          <div class="modalPreview">
+            <div class="modalDesc">
+              <div class="modalImageContainer"></div>
+              <div class="modalInfo">
+                <p><strong>Icon Name: </strong><span id="iconName"></span></p>
+                <p><strong>Icon Set: </strong><span id="iconSet"></span></p>
+                <p><strong>Icon Size: </strong><span id="iconSize"></span></p>
+                <p>
+                  <strong>Stroke Width: </strong
+                  ><span id="iconStrokeWidth"></span>
+                </p>
+                <p><strong>Icon Color: </strong><span id="iconColor"></span></p>
+              </div>
+            </div>
+            <div class="svgCode"></div>
+          </div>
+          <div class="modalControls">
+            <div class="modalOptions">
+              <label for="svgSize">Size:</label>
+              <input
+                type="range"
+                name="svgSize"
+                id="svgSize"
+                min="12"
+                max="100"
+                step="4"
+                value="24"
+              />
+              <label for="svgStrokeWidth">Stroke Width:</label>
+              <input
+                type="range"
+                name="svgStrokeWidth"
+                id="svgStrokeWidth"
+                min="0.5"
+                max="3"
+                step="0.5"
+                value="1.5"
+              />
+              <label for="svgColor">Color:</label>
+              <input type="color" name="svgColor" id="svgColor" />
+            </div>
+            <div class="modalBtns">
+              <button id="resetCode">Reset Settings</button>
+              <button id="copyCode">Copy Code</button>
+              <button id="Download">Download</button>
+            </div>
+          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#000000"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="x-circle"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+          </svg>
+        </div>
+      </div>
+      <div class="header"></div>
+      <div class="searchContainer">
+        <h1>Project Icons</h1>
+        <p>
+          Welcome to Project Icons, where you can explore a diverse collection
+          of popular open-source icon sets!
+        </p>
+        <input type="search" name="mainSearch" id="mainSearch" />
+        <button
+          id="githubBtn"
+          onclick="window.open('https://github.com/diaskalana/Icons','_blank')"
+        >
+          <div class="btnflex">
+            <img src="./assets/images/github-30-light.png" alt="" />
+            <img src="./assets/images/github-30.png" alt="" />View on Github
+          </div>
+        </button>
+      </div>
+      <div class="iconContainer"></div>
+    </div>
+  </body>
 </html>
