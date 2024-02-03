@@ -1,26 +1,109 @@
 import { featherImages } from '../icons/feather/images.js'
+import { remixiconsImages } from '../icons/remixicons/images.js';
+import { lucideImages } from '../icons/lucide/images.js';
+
 import { filterData, SearchType } from 'filter-data';
 import 'external-svg-loader'
 import Toastify from 'toastify-js'
-
 import "toastify-js/src/toastify.css"
 
 
-const arr = []
-Object.keys(featherImages).forEach(function (key) {
+const iconContainer = document.querySelector('.iconContainer')
+const modalImageContainer = document.querySelector('.modalImageContainer')
+const modalControls = document.querySelector('.modalControls')
+const modal = document.querySelector('.modal')
+const modalContent = document.querySelector('.modalContent')
 
-    const obj = {
-        iconName: key,
-        iconUrl: featherImages[key],
-        iconSet: 'feather',
-    }
-    arr.push(obj)
-});
+const xCircle = document.querySelector('.x-circle')
+const noResultText = document.querySelector('.noResultText')
+
+const svgCode = document.querySelector('.svgCode')
+const loader = document.querySelector('.loader')
+const scrollToTop = document.querySelector('.scrollToTop')
+
+const svgSize = document.querySelector('#svgSize')
+const svgStrokeWidth = document.querySelector('#svgStrokeWidth')
+const svgColor = document.querySelector('#svgColor')
+
+const iconName = document.querySelector('#iconName')
+const iconSet = document.querySelector('#iconSet')
+const iconSize = document.querySelector('#iconSize')
+const iconStrokeWidth = document.querySelector('#iconStrokeWidth')
+const iconColor = document.querySelector('#iconColor')
+const mainSearch = document.querySelector('#mainSearch')
+
+const resetCode = document.querySelector('#resetCode')
+const copyCode = document.querySelector('#copyCode')
+const Download = document.querySelector('#Download')
+
+const selectIconSet = document.querySelector('#selectIconSet')
+
+
+let iconUpdated;
+let arr = []
 
 SVGLoader.destroyCache();
+updateIconSet(selectIconSet.value)
 updateIconList(arr)
 
+scrollToTop.addEventListener('click', () => {
+    window.scrollTo(0, 0);
+})
+selectIconSet.addEventListener('input', () => {
+    modal.style.display = 'flex'
+    loader.style.display = 'inline-block'
+    modalContent.style.display = 'none'
+
+    setTimeout(function () {
+        updateIconSet(selectIconSet.value)
+        updateIconList(arr)
+        updateSearchResults()
+
+        modal.style.display = 'none'
+        loader.style.display = 'none'
+        modalContent.style.display = 'flex'
+    }, 100);
+
+})
+
+function updateIconSet(setName) {
+    arr = []
+    if (setName == 'feather') {
+        Object.keys(featherImages).forEach(function (key) {
+
+            const obj = {
+                iconName: key,
+                iconUrl: featherImages[key],
+                iconSet: 'feather',
+            }
+            arr.push(obj)
+        });
+    } else if (setName == 'remixicons') {
+        Object.keys(remixiconsImages).forEach(function (key) {
+
+            const obj = {
+                iconName: key,
+                iconUrl: remixiconsImages[key],
+                iconSet: 'remixicons',
+            }
+            arr.push(obj)
+        });
+    } else if (setName == 'lucide') {
+        Object.keys(lucideImages).forEach(function (key) {
+
+            const obj = {
+                iconName: key,
+                iconUrl: lucideImages[key],
+                iconSet: 'lucide',
+            }
+            arr.push(obj)
+        });
+    }
+}
+
 function updateIconList(arr) {
+    iconContainer.innerHTML = ''
+
     arr.forEach((item) => {
 
         const outerDiv = document.createElement('div')
@@ -42,37 +125,13 @@ function updateIconList(arr) {
 
 }
 
-const iconContainer = document.querySelector('.iconContainer')
-const modalImageContainer = document.querySelector('.modalImageContainer')
-const modalControls = document.querySelector('.modalControls')
-const modal = document.querySelector('.modal')
-const xCircle = document.querySelector('.x-circle')
-
-const svgCode = document.querySelector('.svgCode')
-
-const svgSize = document.querySelector('#svgSize')
-const svgStrokeWidth = document.querySelector('#svgStrokeWidth')
-const svgColor = document.querySelector('#svgColor')
-
-const iconName = document.querySelector('#iconName')
-const iconSet = document.querySelector('#iconSet')
-const iconSize = document.querySelector('#iconSize')
-const iconStrokeWidth = document.querySelector('#iconStrokeWidth')
-const iconColor = document.querySelector('#iconColor')
-
-const resetCode = document.querySelector('#resetCode')
-const copyCode = document.querySelector('#copyCode')
-const Download = document.querySelector('#Download')
-
-let iconNameUpdated;
-
 Download.addEventListener('click', () => {
     const downloadSvg = svgCode.textContent
     const blob = new Blob([downloadSvg], { type: 'image/svg+xml' })
 
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
-    a.setAttribute('download', `projectIcons-${getIconName()}.svg`)
+    a.setAttribute('download', `projectIcons-${getIconData().iconName}.svg`)
     a.setAttribute('href', url)
     a.style.display = 'none'
     document.body.appendChild(a)
@@ -107,42 +166,56 @@ copyCode.addEventListener('click', () => {
 
 resetCode.addEventListener('click', () => {
 
-    svgSize.value = 24
-    svgStrokeWidth.value = 1.5
-    svgColor.value = '#000000'
-
-    updateIconStyles()
+    resetFunc()
 
 })
 
+function resetFunc() {
+    svgSize.value = 24
+    svgStrokeWidth.value = 1
+    svgColor.value = '#000000'
+
+    updateIconAndCode()
+}
+
 iconContainer.addEventListener('click', (event) => {
-    if (event.target.className == 'iconContainer') {
-        // Do nothing
-    } else {
-        const selectedIcon = arr.find((item) => item.iconName === event.target.id)
-        // const selectedIcon = `<svg data-src="${selectedIconUrl}" data-loading="lazy" width="24" height="24"></svg>`
 
-        let resultText;
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', selectedIcon.iconUrl, false);
+    modal.style.display = 'flex'
+    loader.style.display = 'inline-block'
+    modalContent.style.display = 'none'
 
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                resultText = xhr.responseText;
-            }
-        };
-        xhr.send();
-        modalImageContainer.innerHTML = resultText
+    setTimeout(function () {
+        if (event.target.className == 'iconContainer') {
+            // Do nothing
+        } else {
+            const selectedIcon = arr.find((item) => item.iconName === event.target.id)
+            // const selectedIcon = `<svg data-src="${selectedIconUrl}" data-loading="lazy" width="24" height="24"></svg>`
 
-        iconNameUpdated = selectedIcon.iconName
+            let resultText;
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', selectedIcon.iconUrl, false);
 
-        updateIconAndCode(selectedIcon)
-        modal.style.display = 'flex'
-        modalControls.addEventListener('input', () => {
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    resultText = xhr.responseText;
+                }
+            };
+            xhr.send();
+            modalImageContainer.innerHTML = resultText
+
+            iconUpdated = selectedIcon;
+
             updateIconAndCode(selectedIcon)
+            modal.style.display = 'flex'
+            modalControls.addEventListener('input', () => {
+                updateIconAndCode(selectedIcon)
 
-        })
-    }
+            })
+        }
+
+        loader.style.display = 'none'
+        modalContent.style.display = 'flex'
+    }, 100);
 })
 
 
@@ -155,7 +228,9 @@ window.onclick = function (event) {
     }
 }
 
-function updateIconAndCode(iconData) {
+function updateIconAndCode(iconData = getIconData()) {
+    SVGLoader.destroyCache();
+
     iconName.textContent = iconData.iconName
     iconSet.textContent = iconData.iconSet
     iconSize.textContent = `(${svgSize.value}px) x (${svgSize.value}px)`
@@ -174,10 +249,17 @@ function updateIconStyles() {
     modalImageContainer.firstChild.setAttribute('height', svgSize.value)
     modalImageContainer.firstChild.setAttribute('stroke-width', svgStrokeWidth.value)
     modalImageContainer.firstChild.setAttribute('stroke', svgColor.value)
+
+    if (selectIconSet.value == 'remixicons') {
+        modalImageContainer.firstChild.setAttribute('fill', svgColor.value)
+    }
 }
 
-const mainSearch = document.querySelector('#mainSearch')
 mainSearch.addEventListener('input', () => {
+    updateSearchResults()
+})
+
+function updateSearchResults() {
     document.querySelector('.iconContainer').innerHTML = ''
     const searchConditions = [
         {
@@ -187,9 +269,17 @@ mainSearch.addEventListener('input', () => {
         },
     ];
     const resultArr = filterData(arr, searchConditions);
-    updateIconList(resultArr)
-})
 
-function getIconName() {
-    return iconNameUpdated;
+    if (resultArr.length == 0) {
+        noResultText.style.display = 'block'
+        iconContainer.style.display = 'none'
+    } else {
+        noResultText.style.display = 'none'
+        iconContainer.style.display = 'flex'
+        updateIconList(resultArr)
+
+    }
+}
+function getIconData() {
+    return iconUpdated;
 }

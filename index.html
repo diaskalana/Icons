@@ -4,17 +4,69 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Icons</title>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./assets/favicons/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/favicons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./assets/favicons/favicon-16x16.png"
+    />
+    <link rel="manifest" href="./assets/favicons/site.webmanifest" />
+
     <link rel="stylesheet" href="./assets/css/normalize.css" />
     <link rel="stylesheet" href="./assets/css/style.css" />
     <link
       rel="stylesheet"
       href="https://unpkg.com/balloon-css/balloon.min.css"
     />
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
     <script defer type="module" src="./assets/js/script.js"></script>
   </head>
   <body>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="40"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#000000"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="scrollToTop"
+    >
+      <circle cx="12" cy="12" r="10"></circle>
+      <polyline points="16 12 12 8 8 12"></polyline>
+      <line x1="12" y1="16" x2="12" y2="8"></line>
+    </svg>
     <div class="mainContainer">
       <div class="modal">
+        <div class="loadingio-spinner-spinner-bkxhxqdhhvt loader">
+          <div class="ldio-0sghf83cnath">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
         <div class="modalContent">
           <div class="modalPreview">
             <div class="modalDesc">
@@ -52,7 +104,7 @@
                 min="0.5"
                 max="3"
                 step="0.5"
-                value="1.5"
+                value="1"
               />
               <label for="svgColor">Color:</label>
               <input type="color" name="svgColor" id="svgColor" />
@@ -88,18 +140,41 @@
           Welcome to Project Icons, where you can explore a diverse collection
           of popular open-source icon sets!
         </p>
-        <input type="search" name="mainSearch" id="mainSearch" />
-        <button
-          id="githubBtn"
-          onclick="window.open('https://github.com/diaskalana/Icons','_blank')"
-        >
-          <div class="btnflex">
-            <img src="./assets/images/github-30-light.png" alt="" />
-            <img src="./assets/images/github-30.png" alt="" />View on Github
-          </div>
-        </button>
+
+        <input
+          type="search"
+          name="mainSearch"
+          id="mainSearch"
+          placeholder="Search Icons..."
+        />
+        <div class="mainBtnWrapper">
+          <select class="mainBtn" name="selectIconSet" id="selectIconSet">
+            <option value="feather">Feather Icons</option>
+            <option value="remixicons">Remix Icons</option>
+            <option value="lucide">Lucide</option>
+          </select>
+          <button
+            id="githubBtn"
+            class="mainBtn"
+            onclick="window.open('https://github.com/diaskalana/Icons','_blank')"
+          >
+            <div class="btnflex">
+              <iconify-icon
+                icon="ant-design:github-filled"
+                width="1.2rem"
+                height="1.2rem"
+              ></iconify-icon>
+              View on Github
+            </div>
+          </button>
+        </div>
       </div>
-      <div class="iconContainer"></div>
+      <div class="searchResults">
+        <div class="iconContainer"></div>
+        <div class="noResultText">
+          <p>No results found!</p>
+        </div>
+      </div>
     </div>
   </body>
 </html>
