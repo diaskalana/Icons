@@ -7,5 +7,5 @@ export default defineConfig({
         // input https://www.npmjs.com/package/html-minifier-terser options
         ViteMinifyPlugin({}),
     ],
-    // base: "/ToolSet/"
+    base: "/Icons/"
 })
